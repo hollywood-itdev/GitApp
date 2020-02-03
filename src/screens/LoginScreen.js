@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, AsyncStorage } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, AsyncStorage, Alert } from 'react-native';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -33,6 +33,7 @@ const LoginScreen = ({ navigation }) => {
     const result = await _request("GET", "user");
 
     if (result == null || result.error) {
+      Alert.alert(result.error.message || "Error")
       setState({
         ...state,
         statusText: result.error.message || "Error",
@@ -42,6 +43,7 @@ const LoginScreen = ({ navigation }) => {
       return;
     }
 
+    global.username = result.login || "User"
     navigation.navigate('Dashboard');
   };
 
@@ -76,24 +78,9 @@ const LoginScreen = ({ navigation }) => {
         secureTextEntry
       />
 
-      {/* <View style={styles.forgotPassword}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ForgotPasswordScreen')}
-        >
-          <Text style={styles.label}>Forgot your password?</Text>
-        </TouchableOpacity>
-      </View> */}
-
       <Button mode="contained" onPress={_onLoginPressed}>
         Sign in
       </Button>
-
-      {/* <View style={styles.row}>
-        <Text style={styles.label}>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-          <Text style={styles.link}>Sign up</Text>
-        </TouchableOpacity>
-      </View> */}
     </Background>
   );
 };

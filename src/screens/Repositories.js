@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -6,8 +6,9 @@ import Paragraph from '../components/Paragraph';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import { AsyncStorage } from 'react-native';
+import { _request } from '../core/request';
 
-const Dashboard = ({ navigation }) => {
+const Repositories = ({ navigation }) => {
   const [state, setState] = useState({
     repository: "facebook/react-native",
     error: '',
@@ -15,12 +16,25 @@ const Dashboard = ({ navigation }) => {
   })
 
   const _findRepositories = () => {
-    console.log(state.repository)
     if (state.repository != '') {
-      global.repository = state.repository;
-      navigation.navigate('Repositories')
-    }else{
-      setState({...state, error: "Repository cannot be empty"})
+      global.repository = state.repository
+    }
+  }
+
+  useEffect(() => {
+    fetchComment("request")
+  }, ["request"]);
+
+  const fetchComment = async (commnetId) => {
+    if (global.repository != '') {
+      const repo = global.repository;
+      const result = await _request('GET', 'repos/' + repo);
+      // console.log(result)
+      if(result.commits_url)
+      {
+        const commits = await _request('GET', 'repos/' + repo + '/commits');
+        console.log(commits)
+      }
     }
   }
 
@@ -38,11 +52,11 @@ const Dashboard = ({ navigation }) => {
         errorText={state.error}
         autoCapitalize="none"
       />
-      <Button mode="contained" onPress={_findRepositories}>
+      <Button mode="contained" onPress={() => _findRepositories}>
         Search
       </Button>
     </Background>
   );
 }
 
-export default memo(Dashboard);
+export default memo(Repositories);

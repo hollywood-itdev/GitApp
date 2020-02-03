@@ -27,14 +27,12 @@ export const _request = async (method, uri, payload) => {
 
     try {
         const response = await fetch(domain + uri, options);
-        console.log(response)
         if(response.status != 200)
         {
             return {error: await response.json(), status: response.status}
         }
         return await response.json()
     } catch (err) {
-        console.log(err)
         return { error: err.error, body: null }
     }
 };
