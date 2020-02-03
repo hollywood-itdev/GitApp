@@ -8,19 +8,13 @@ import Paragraph from '../components/Paragraph';
 const HomeScreen = ({ navigation }) => (
   <Background>
     <Logo />
-    <Header>Login Template</Header>
+    <Header>Sign in to GitHub</Header>
 
-    <Paragraph>
-      The easiest way to start with your amazing application.
-    </Paragraph>
+    {/* <Paragraph>
+      Sign in to GitHub
+    </Paragraph> */}
     <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
-      Login
-    </Button>
-    <Button
-      mode="outlined"
-      onPress={() => navigation.navigate('RegisterScreen')}
-    >
-      Sign Up
+      Sign in
     </Button>
   </Background>
 );

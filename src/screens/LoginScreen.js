@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, AsyncStorage } from 'react-native';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -8,18 +8,37 @@ import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import { theme } from '../core/theme';
 import { emailValidator, passwordValidator } from '../core/utils';
+import { _request } from '../core/request';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
+  const [state, setState] = useState({
+    statusText: "Welcome back."
+  })
 
-  const _onLoginPressed = () => {
+  const _onLoginPressed = async () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
 
     if (emailError || passwordError) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
+      return;
+    }
+
+    AsyncStorage.setItem("email", email.value)
+    AsyncStorage.setItem("password", password.value)
+
+    const result = await _request("GET", "user");
+
+    if (result == null || result.error) {
+      setState({
+        ...state,
+        statusText: result.error.message || "Error",
+      })
+      setEmail({ value: '', error: '' })
+      setPassword({ value: '', error: '' })
       return;
     }
 
@@ -32,7 +51,7 @@ const LoginScreen = ({ navigation }) => {
 
       <Logo />
 
-      <Header>Welcome back.</Header>
+      <Header>{state.statusText}</Header>
 
       <TextInput
         label="Email"
@@ -57,24 +76,24 @@ const LoginScreen = ({ navigation }) => {
         secureTextEntry
       />
 
-      <View style={styles.forgotPassword}>
+      {/* <View style={styles.forgotPassword}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ForgotPasswordScreen')}
         >
           <Text style={styles.label}>Forgot your password?</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <Button mode="contained" onPress={_onLoginPressed}>
-        Login
+        Sign in
       </Button>
 
-      <View style={styles.row}>
+      {/* <View style={styles.row}>
         <Text style={styles.label}>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </Background>
   );
 };
