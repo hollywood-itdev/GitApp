@@ -55,8 +55,6 @@ const LoginScreen = ({ navigation }) => {
 
         <Logo />
 
-        <Header>{state.statusText}</Header>
-
         <TextInput
           label="Email"
           returnKeyType="next"
