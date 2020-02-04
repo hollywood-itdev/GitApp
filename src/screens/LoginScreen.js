@@ -12,8 +12,8 @@ import { emailValidator, passwordValidator } from '../core/utils';
 import { _request } from '../core/request';
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState({ value: 'snowman718@yandex.com', error: '' });
-  const [password, setPassword] = useState({ value: 'Iambug27@', error: '' });
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
   const [state, setState] = useState({
     statusText: "Welcome back."
   })
