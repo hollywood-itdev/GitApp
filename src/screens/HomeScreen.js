@@ -4,18 +4,18 @@ import Logo from '../components/Logo';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import Paragraph from '../components/Paragraph';
+import Container from '../components/Container';
 
 const HomeScreen = ({ navigation }) => (
   <Background>
-    <Logo />
-    <Header>Sign in to GitHub</Header>
+    <Container>
+      <Logo />
+      <Header>Sign in to GitHub</Header>
 
-    {/* <Paragraph>
-      Sign in to GitHub
-    </Paragraph> */}
-    <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
-      Sign in
-    </Button>
+      <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
+        Sign in
+      </Button>
+    </Container>
   </Background>
 );
 

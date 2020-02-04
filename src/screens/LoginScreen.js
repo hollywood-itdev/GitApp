@@ -6,13 +6,14 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
+import Container from '../components/Container';
 import { theme } from '../core/theme';
 import { emailValidator, passwordValidator } from '../core/utils';
 import { _request } from '../core/request';
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
+  const [email, setEmail] = useState({ value: 'snowman718@yandex.com', error: '' });
+  const [password, setPassword] = useState({ value: 'Iambug27@', error: '' });
   const [state, setState] = useState({
     statusText: "Welcome back."
   })
@@ -49,38 +50,40 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate('HomeScreen')} />
+      <BackButton goBack={() => navigation.navigate('HomeScreen')} title={"Login Page"}/>
+      <Container>
 
-      <Logo />
+        <Logo />
 
-      <Header>{state.statusText}</Header>
+        <Header>{state.statusText}</Header>
 
-      <TextInput
-        label="Email"
-        returnKeyType="next"
-        value={email.value}
-        onChangeText={text => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
+        <TextInput
+          label="Email"
+          returnKeyType="next"
+          value={email.value}
+          onChangeText={text => setEmail({ value: text, error: '' })}
+          error={!!email.error}
+          errorText={email.error}
+          autoCapitalize="none"
+          autoCompleteType="email"
+          textContentType="emailAddress"
+          keyboardType="email-address"
+        />
 
-      <TextInput
-        label="Password"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={text => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
-        secureTextEntry
-      />
+        <TextInput
+          label="Password"
+          returnKeyType="done"
+          value={password.value}
+          onChangeText={text => setPassword({ value: text, error: '' })}
+          error={!!password.error}
+          errorText={password.error}
+          secureTextEntry
+        />
 
-      <Button mode="contained" onPress={_onLoginPressed}>
-        Sign in
-      </Button>
+        <Button mode="contained" onPress={_onLoginPressed}>
+          Sign in
+        </Button>
+      </Container>
     </Background>
   );
 };
